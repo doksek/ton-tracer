@@ -1,0 +1,20 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# данные расследований и кэш — никогда не в репозиторий
+*.db
+*.db-journal
+cache/
+.tonapi_cache/
+out/
+demo_out/
+reports/
+.env
+
+# сборка
+build/
+dist/
+*.spec

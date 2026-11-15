@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TON Tracer</title>
+  <link rel="icon" href="/static/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/app.css">
+  <script src="/static/theme.js"></script>
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <a class="brand" href="#/new">
+      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
+        <path d="M4 7h9c6 0 6 8 12 8" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" opacity=".9"/>
+        <path d="M4 15h7c5 0 5 8 10 8h4" fill="none" stroke="var(--flow-ton)" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="4" cy="7" r="3" fill="var(--r-source)"/>
+      </svg>
+      <b>TON Tracer</b>
+    </a>
+    <a class="btn primary" href="#/new">Новое расследование</a>
+    <nav class="side-list" id="inv-list" aria-label="Расследования"></nav>
+    <div class="side-foot">
+      <a href="#/labels" data-nav="labels">Метки</a>
+      <a href="#/settings" data-nav="settings">Настройки</a>
+      <button id="theme-btn" type="button" title="Светлая или тёмная тема">Тема</button>
+    </div>
+  </aside>
+  <main class="main"><div id="view"></div></main>
+</div>
+<div id="drawer" class="drawer" hidden></div>
+<script src="/static/flowmap.js"></script>
+<script src="/static/view.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>

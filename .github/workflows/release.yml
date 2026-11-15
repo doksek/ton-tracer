@@ -1,0 +1,41 @@
+# Собирает готовые приложения для Windows, macOS и Linux, когда в репозиторий отправлен тег вида v2.0.0:
+#   git tag v2.0.0 && git push origin v2.0.0
+name: release
+on:
+  push:
+    tags: ["v*"]
+permissions:
+  contents: write
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Системные библиотеки для окна (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-gi gir1.2-webkit2-4.1 libgirepository1.0-dev libcairo2-dev pkg-config
+          pip install "pywebview[gtk]"
+      - run: pip install -r requirements-window.txt pyinstaller
+      - run: pip install -r requirements-dev.txt && pytest -q
+      - run: python build_app.py
+      - name: Упаковать
+        shell: bash
+        run: |
+          cd dist
+          if [ "$RUNNER_OS" = "Windows" ]; then 7z a ../TON-Tracer-windows.zip TON-Tracer.exe
+          elif [ "$RUNNER_OS" = "macOS" ]; then zip -r ../TON-Tracer-macos.zip TON-Tracer.app
+          else tar czf ../TON-Tracer-linux.tar.gz TON-Tracer; fi
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            TON-Tracer-*.zip
+            TON-Tracer-*.tar.gz
